@@ -1,0 +1,26 @@
+package user
+
+import (
+	"context"
+	"github.com/kerneels94/reports/model"
+	"github.com/kerneels94/reports/view/components"
+	"github.com/kerneels94/reports/view/layout"
+)
+
+func getUser(c context.Context) {
+	user, ok := c.Value("user").(string)
+	if !ok {
+		return ""
+	}
+	return user
+}
+
+templ Show(user model.UserModel) {
+	<h2>
+		{ getUser(ctx) }
+	</h2>
+	@layout.Base() {
+		<h1>Hello { user.Email }</h1>
+		@components.Input("email", "Corrie")
+	}
+}
