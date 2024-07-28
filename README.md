@@ -6,5 +6,6 @@ A web application built for security companies that enables them to send inciden
 - Golang
 - Temple
 - Echo
+- Supabase
 
 
