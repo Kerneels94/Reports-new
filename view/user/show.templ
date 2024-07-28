@@ -7,7 +7,7 @@ import (
 	"github.com/kerneels94/reports/view/layout"
 )
 
-func getUser(c context.Context) {
+func getUser(c context.Context) string {
 	user, ok := c.Value("user").(string)
 	if !ok {
 		return ""
