@@ -1,6 +1,8 @@
 package main
 
 import (
+	// "context"
+
 	"github.com/kerneels94/reports/handler"
 	"github.com/labstack/echo/v4"
 )
@@ -9,13 +11,13 @@ func main() {
 	app := echo.New()
 
 	userHandler := handler.UserHandler{}
-	authHandler := handler.AuthHandler{}
+	loginHandler := handler.LoginHandler{}
 	signUpHandler := handler.SignUpHandler{}
 
 	// app.Use(withUser)
 
 	app.GET("/user", userHandler.HandleUserShow)
-	app.GET("/login", authHandler.HandleUserLogin)
+	app.GET("/login", loginHandler.HandleUserLogin)
 	app.GET("/sign-up", signUpHandler.HandleSignUp)
 
 	app.Start(":3000")
