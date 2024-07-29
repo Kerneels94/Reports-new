@@ -2,12 +2,21 @@ package main
 
 import (
 	// "context"
+	"fmt"
+
+	"github.com/joho/godotenv"
 
 	"github.com/kerneels94/reports/handler"
 	"github.com/labstack/echo/v4"
 )
 
 func main() {
+	err := godotenv.Load()
+	if err != nil {
+		fmt.Println("Error loading .env file")
+		return
+	}
+
 	app := echo.New()
 
 	userHandler := handler.UserHandler{}
@@ -19,6 +28,9 @@ func main() {
 	app.GET("/user", userHandler.HandleUserShow)
 	app.GET("/login", loginHandler.HandleUserLogin)
 	app.GET("/sign-up", signUpHandler.HandleSignUp)
+
+	noteHandler := handler.NotesHandler{}
+	app.GET("/notes", noteHandler.HandleNotes)
 
 	app.Start(":3000")
 
