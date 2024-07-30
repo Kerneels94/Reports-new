@@ -19,21 +19,22 @@ func main() {
 
 	app := echo.New()
 
-	userHandler := handler.UserHandler{}
-	loginHandler := handler.LoginHandler{}
-	signUpHandler := handler.SignUpHandler{}
-
 	// app.Use(withUser)
-
+	
+	userHandler := handler.UserHandler{}
 	app.GET("/user", userHandler.HandleUserShow)
+	
+	loginHandler := handler.LoginHandler{}
 	app.GET("/login", loginHandler.HandleUserLogin)
+
+	signUpHandler := handler.SignUpHandler{}
 	app.GET("/sign-up", signUpHandler.HandleSignUp)
+	app.POST("/sign-up", signUpHandler.HandleUserSignUp)
 
 	noteHandler := handler.NotesHandler{}
 	app.GET("/notes", noteHandler.HandleNotes)
 
 	app.Start(":3000")
-
 }
 
 // Middleware
