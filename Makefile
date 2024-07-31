@@ -1,2 +1,5 @@
+# run:
+# 	@go run ./cmd/main.go
+
 run:
-	@go run ./cmd/main.go
+	@cd cmd && air
