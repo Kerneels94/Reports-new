@@ -37,6 +37,7 @@ func main() {
 
 	dashboardHandler := handler.DashboardHandler{}
 	app.GET("/dashboard", dashboardHandler.HandleDashboard)
+	app.POST("/logout", dashboardHandler.HandleLogout)
 
 	app.Start(":3000")
 }
