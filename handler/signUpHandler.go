@@ -22,7 +22,7 @@ func (h SignUpHandler) HandleUserSignUp(c echo.Context) error {
 	email := c.FormValue("email")
 	password := c.FormValue("password")
 
-	if email == "" || password == "" {
+	if email == "" || password == "" || len(email) <= 0 || len(password) <= 0 {
 		return c.JSON(http.StatusBadRequest, map[string]string{"error": "Email and password are required"})
 	}
 
