@@ -26,10 +26,11 @@ func main() {
 	
 	loginHandler := handler.LoginHandler{}
 	app.GET("/login", loginHandler.HandleUserLogin)
+	app.POST("/api/login", loginHandler.HandleUserLoginLogin)
 
 	signUpHandler := handler.SignUpHandler{}
 	app.GET("/sign-up", signUpHandler.HandleSignUp)
-	app.POST("/sign-up", signUpHandler.HandleUserSignUp)
+	app.POST("/api/sign-up", signUpHandler.HandleUserSignUp)
 
 	noteHandler := handler.NotesHandler{}
 	app.GET("/notes", noteHandler.HandleNotes)
