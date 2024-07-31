@@ -35,6 +35,9 @@ func main() {
 	noteHandler := handler.NotesHandler{}
 	app.GET("/notes", noteHandler.HandleNotes)
 
+	dashboardHandler := handler.DashboardHandler{}
+	app.GET("/dashboard", dashboardHandler.HandleDashboard)
+
 	app.Start(":3000")
 }
 
