@@ -9,9 +9,8 @@ package handler
 import (
 	"fmt"
 	"net/http"
-	"os"
 
-	supa "github.com/nedpals/supabase-go"
+	"github.com/kerneels94/reports/functions"
 
 	"github.com/labstack/echo/v4"
 )
@@ -19,27 +18,18 @@ import (
 type NotesHandler struct{}
 
 func (h NotesHandler) HandleNotes(c echo.Context) error {
-	// API_URL
-	API_URL := os.Getenv("API_URL")
-	if API_URL == "" {
-		fmt.Println("API_URL is not set")
-		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "API_URL is not set"})
-	}
+	supabaseClient, err := functions.CreateSupabaseClient()
 
-	// API_KEY
-	API_KEY := os.Getenv("API_KEY")
-	if API_KEY == "" {
-		fmt.Println("API_KEY is not set")
-		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "API_KEY is not set"})
-	}
-
-	supabaseClient := supa.CreateClient(API_URL, API_KEY)
-
-	var results []map[string]interface{}
-	err := supabaseClient.DB.From("notes").Select("*").Execute(&results)
 	if err != nil {
 		fmt.Println(err)
-		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "An error occurred"})
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": err.Error()})
+	}
+
+	var results []map[string]interface{}
+	err = supabaseClient.DB.From("notes").Select("*").Execute(&results)
+	if err != nil {
+		fmt.Println(err)
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": err.Error()})
 	}
 
 	print(results)

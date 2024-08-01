@@ -4,10 +4,10 @@ import (
 	"context"
 	"fmt"
 	"net/http"
-	"os"
 
 	supa "github.com/nedpals/supabase-go"
 
+	"github.com/kerneels94/reports/functions"
 	"github.com/kerneels94/reports/view/auth"
 	"github.com/labstack/echo/v4"
 )
@@ -26,21 +26,12 @@ func (h SignUpHandler) HandleUserSignUp(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, map[string]string{"error": "Email and password are required"})
 	}
 
-	// API_URL
-	API_URL := os.Getenv("API_URL")
-	if API_URL == "" {
-		fmt.Println("API_URL is not set")
-		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "API_URL is not set"})
-	}
+	supabaseClient, err := functions.CreateSupabaseClient()
 
-	// API_KEY
-	API_KEY := os.Getenv("API_KEY")
-	if API_KEY == "" {
-		fmt.Println("API_KEY is not set")
-		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "API_KEY is not set"})
+	if err != nil {
+		fmt.Println(err)
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": err.Error()})
 	}
-
-	supabaseClient := supa.CreateClient(API_URL, API_KEY)
 
 	ctx := context.Background()
 
