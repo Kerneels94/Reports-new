@@ -20,10 +20,10 @@ func main() {
 	app := echo.New()
 
 	// app.Use(withUser)
-	
+
 	userHandler := handler.UserHandler{}
 	app.GET("/user", userHandler.HandleUserShow)
-	
+
 	loginHandler := handler.LoginHandler{}
 	app.GET("/login", loginHandler.HandleUserLogin)
 	app.POST("/api/login", loginHandler.HandleUserLoginLogin)
@@ -37,7 +37,7 @@ func main() {
 
 	dashboardHandler := handler.DashboardHandler{}
 	app.GET("/dashboard", dashboardHandler.HandleDashboard)
-	app.POST("/logout", dashboardHandler.HandleLogout)
+	app.POST("/api/logout", dashboardHandler.HandleLogout) 
 
 	app.Start(":3000")
 }

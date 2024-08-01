@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/labstack/echo/v4"
 	supa "github.com/nedpals/supabase-go"
 )
 
@@ -29,4 +30,8 @@ func CreateSupabaseClient() (*supa.Client, error) {
 	}
 
 	return supa.CreateClient(API_URL, API_KEY), nil
+}
+
+func HtmxRedirect(c echo.Context, url string) {
+	c.Response().Header().Set("HX-Redirect", url)
 }

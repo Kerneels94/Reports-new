@@ -7,3 +7,7 @@ var (
 func SetUserToken(newUserToken string) {
 	userToken = newUserToken
 }
+
+func GetUserToken() string {
+	return userToken
+}

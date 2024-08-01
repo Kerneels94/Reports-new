@@ -35,7 +35,7 @@ func (h SignUpHandler) HandleUserSignUp(c echo.Context) error {
 
 	ctx := context.Background()
 
-	user, err := supabaseClient.Auth.SignUp(ctx, supa.UserCredentials{
+	_, err = supabaseClient.Auth.SignUp(ctx, supa.UserCredentials{
 		Email:    email,
 		Password: password,
 	})
@@ -45,5 +45,7 @@ func (h SignUpHandler) HandleUserSignUp(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "An error occurred"})
 	}
 
-	return c.JSON(http.StatusOK, user)
+	functions.HtmxRedirect(c, "/login")
+
+	return c.JSON(http.StatusOK, "Signed up")
 }

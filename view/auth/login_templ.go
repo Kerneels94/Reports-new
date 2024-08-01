@@ -40,7 +40,7 @@ func LoginPage() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<h2>Login Page</h2><form hx-post=\"/api/login\" hx-target=\"#response\"><div><label for=\"email\">Email:</label> <input type=\"email\" id=\"email\" name=\"email\" required></div><div><label for=\"password\">Password:</label> <input type=\"password\" id=\"password\" name=\"password\" required></div><button type=\"submit\">Login</button></form><div id=\"response\"></div>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<h2>Login Page</h2><form><div><label for=\"email\">Email:</label> <input type=\"email\" id=\"email\" name=\"email\" required></div><div><label for=\"password\">Password:</label> <input type=\"password\" id=\"password\" name=\"password\" required></div><button type=\"button\" hx-post=\"/api/login\">Login</button></form>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

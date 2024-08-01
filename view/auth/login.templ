@@ -5,8 +5,7 @@ import "github.com/kerneels94/reports/view/layout"
 templ LoginPage() {
 	@layout.Base() {
 		<h2>Login Page</h2>
-		
-		<form hx-post="/api/login" hx-target="#response">
+		<form>
 			<div>
 				<label for="email">Email:</label>
 				<input type="email" id="email" name="email" required/>
@@ -15,9 +14,7 @@ templ LoginPage() {
 				<label for="password">Password:</label>
 				<input type="password" id="password" name="password" required/>
 			</div>
-			<button type="submit">Login</button>
+			<button type="button" hx-post="/api/login">Login</button>
 		</form>
-
-		<div id="response"></div>
 	}
 }

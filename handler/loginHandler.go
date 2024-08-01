@@ -7,6 +7,7 @@ import (
 
 	supa "github.com/nedpals/supabase-go"
 
+	"github.com/kerneels94/reports/config"
 	"github.com/kerneels94/reports/functions"
 	"github.com/kerneels94/reports/view/auth"
 	"github.com/labstack/echo/v4"
@@ -48,5 +49,9 @@ func (h LoginHandler) HandleUserLoginLogin(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"error": err.Error()})
 	}
 
-	return c.JSON(http.StatusOK, user)
+	config.SetUserToken(user.AccessToken)
+
+	functions.HtmxRedirect(c, "/dashboard")
+
+	return c.JSON(http.StatusOK, "Logged in")
 }
