@@ -19,10 +19,10 @@ func (h SignUpHandler) HandleSignUp(c echo.Context) error {
 }
 
 type User struct {
-	ID         int    `json:"id"`
+	ID        string `json:"id"`
 	FirstName string `json:"first_name"`
 	LastName  string `json:"last_name"`
-	Role       string `json:"role"`
+	Role      string `json:"role"`
 }
 
 func (h SignUpHandler) HandleUserSignUp(c echo.Context) error {
@@ -42,7 +42,7 @@ func (h SignUpHandler) HandleUserSignUp(c echo.Context) error {
 
 	ctx := context.Background()
 
-	user, err = supabaseClient.Auth.SignUp(ctx, supa.UserCredentials{
+	user, err := supabaseClient.Auth.SignUp(ctx, supa.UserCredentials{
 		Email:    email,
 		Password: password,
 	})
@@ -53,10 +53,10 @@ func (h SignUpHandler) HandleUserSignUp(c echo.Context) error {
 	}
 
 	row := User{
-		ID: user.ID,
+		ID:        user.ID,
 		FirstName: c.FormValue("name"),
 		LastName:  c.FormValue("surname"),
-		Role:       "admin",
+		Role:      "admin",
 	}
 
 	// Add data to the user table
