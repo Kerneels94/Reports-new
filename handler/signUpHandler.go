@@ -18,13 +18,6 @@ func (h SignUpHandler) HandleSignUp(c echo.Context) error {
 	return render(c, auth.SignUpPage())
 }
 
-type User struct {
-	ID        string `json:"id"`
-	FirstName string `json:"first_name"`
-	LastName  string `json:"last_name"`
-	Role      string `json:"role"`
-}
-
 func (h SignUpHandler) HandleUserSignUp(c echo.Context) error {
 	email := c.FormValue("email")
 	password := c.FormValue("password")
@@ -42,7 +35,7 @@ func (h SignUpHandler) HandleUserSignUp(c echo.Context) error {
 
 	ctx := context.Background()
 
-	user, err := supabaseClient.Auth.SignUp(ctx, supa.UserCredentials{
+	_, err = supabaseClient.Auth.SignUp(ctx, supa.UserCredentials{
 		Email:    email,
 		Password: password,
 	})
@@ -50,22 +43,6 @@ func (h SignUpHandler) HandleUserSignUp(c echo.Context) error {
 	if err != nil {
 		fmt.Println(err)
 		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "An error occurred"})
-	}
-
-	row := User{
-		ID:        user.ID,
-		FirstName: c.FormValue("name"),
-		LastName:  c.FormValue("surname"),
-		Role:      "admin",
-	}
-
-	// Add data to the user table
-	var results []User
-	err = supabaseClient.DB.From("users").Insert(row).Execute(&results)
-
-	if err != nil {
-		fmt.Println(err)
-		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "An error occurred while creating user"})
 	}
 
 	functions.HtmxRedirect(c, "/login")
