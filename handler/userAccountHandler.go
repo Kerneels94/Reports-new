@@ -1,14 +1,10 @@
 package handler
 
 import (
-	"context"
 	"fmt"
 	"net/http"
 
-	supa "github.com/nedpals/supabase-go"
-
 	"github.com/kerneels94/reports/functions"
-	"github.com/kerneels94/reports/view/auth"
 	"github.com/labstack/echo/v4"
 )
 
@@ -19,9 +15,17 @@ type User struct {
 	Role      string `json:"role"`
 }
 
-func AddUserAccount() {
+func AddUserAccount(c echo.Context, userId string) error {
+
+	supabaseClient, err := functions.CreateSupabaseClient()
+
+	if err != nil {
+		fmt.Println(err)
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": err.Error()})
+	}
+
 	row := User{
-		ID:        user.ID,
+		ID:        userId,
 		FirstName: c.FormValue("name"),
 		LastName:  c.FormValue("surname"),
 		Role:      "admin",
@@ -35,4 +39,7 @@ func AddUserAccount() {
 		fmt.Println(err)
 		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "An error occurred while creating user"})
 	}
+
+	return c.JSON(http.StatusOK, "Account added")
+
 }
