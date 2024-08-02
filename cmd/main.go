@@ -3,16 +3,19 @@ package main
 import (
 	// "context"
 
+	"fmt"
+
+	"github.com/joho/godotenv"
 	"github.com/kerneels94/reports/handler"
 	"github.com/labstack/echo/v4"
 )
 
 func main() {
-	// err := godotenv.Load()
-	// if err != nil {
-	// 	fmt.Println("Error loading .env file")
-	// 	return
-	// }
+	err := godotenv.Load()
+	if err != nil {
+		fmt.Println("Error loading .env file")
+		return
+	}
 
 	app := echo.New()
 
