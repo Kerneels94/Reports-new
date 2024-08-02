@@ -15,6 +15,9 @@ import (
 
 type LoginHandler struct{}
 
+/*
+Function used to render login page
+*/
 func (h LoginHandler) HandleUserLogin(c echo.Context) error {
 	// userData := model.UserModel{
 	// 	Email: "test@gmail.com",
@@ -22,6 +25,9 @@ func (h LoginHandler) HandleUserLogin(c echo.Context) error {
 	return render(c, auth.LoginPage())
 }
 
+/*
+Function used to make a api call to save user data in supabase
+*/
 func (h LoginHandler) HandleUserLoginLogin(c echo.Context) error {
 	email := c.FormValue("email")
 	password := c.FormValue("password")
