@@ -23,11 +23,13 @@ type ReportsData struct {
 	Report                string
 }
 
+type CreateReportHandler struct{}
+
 /*
 	Handler for creating a report
 */
 
-func (h DashboardHandler) HandleCreateReport(c echo.Context) error {
+func (h CreateReportHandler) HandleCreateReport(c echo.Context) error {
 	supabaseClient, err := functions.CreateSupabaseClient()
 
 	if err != nil {

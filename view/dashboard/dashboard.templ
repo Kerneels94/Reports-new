@@ -4,8 +4,8 @@ import "github.com/kerneels94/reports/view/layout"
 
 templ DashboardPage() {
 	@layout.Base() {
+		@generateReport()
 		<h2>DashboardPage</h2>
-
 		<button type="button" hx-post="/api/logout" hx>Logout</button>
 	}
 }

@@ -40,10 +40,12 @@ func main() {
 
 	dashboardHandler := handler.DashboardHandler{}
 	app.GET("/dashboard", dashboardHandler.HandleDashboard)
-	app.GET("/dashboard/reports", dashboardHandler.HandleDashboard)
+	reportHandler := handler.CreateReportHandler{}
+	app.GET("/dashboard/reports", reportHandler.HandleCreateReport)
 	app.POST("/api/logout", dashboardHandler.HandleLogout)
 
 	app.Start(":3000")
+
 }
 
 // Middleware
