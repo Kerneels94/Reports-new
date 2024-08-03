@@ -10,6 +10,9 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+/*
+Main function
+*/
 func main() {
 	err := godotenv.Load()
 	if err != nil {
@@ -37,6 +40,7 @@ func main() {
 
 	dashboardHandler := handler.DashboardHandler{}
 	app.GET("/dashboard", dashboardHandler.HandleDashboard)
+	app.GET("/dashboard/reports", dashboardHandler.HandleDashboard)
 	app.POST("/api/logout", dashboardHandler.HandleLogout)
 
 	app.Start(":3000")
