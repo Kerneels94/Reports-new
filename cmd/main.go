@@ -22,6 +22,8 @@ func main() {
 
 	app := echo.New()
 
+	// app.Static("./css/main.css", "css")
+
 	// app.Use(withUser)
 
 	mainPageHandler := handler.MainPageHandler{}
@@ -41,7 +43,7 @@ func main() {
 	dashboardHandler := handler.DashboardHandler{}
 	app.GET("/dashboard", dashboardHandler.HandleDashboard)
 	reportHandler := handler.CreateReportHandler{}
-	app.GET("/dashboard/reports", reportHandler.HandleCreateReport)
+	app.GET("/reports", reportHandler.HandleCreateReport)
 	app.POST("/api/logout", dashboardHandler.HandleLogout)
 
 	app.Start(":3000")

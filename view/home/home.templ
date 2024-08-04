@@ -1,9 +1,13 @@
 package home
 
-import "github.com/kerneels94/reports/view/layout"
+import (
+	"github.com/kerneels94/reports/view/components"
+	"github.com/kerneels94/reports/view/layout"
+)
 
 templ HomePage() {
 	@layout.Base() {
+		@components.Header()
 		<h1>The home page</h1>
 	}
 }
