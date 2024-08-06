@@ -10,7 +10,7 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import "github.com/kerneels94/reports/view/layout"
 
-func DashboardPage() templ.Component {
+func DashboardUsersPage() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
@@ -40,11 +40,7 @@ func DashboardPage() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = generateReport().Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" <h2>DashboardPage</h2><button type=\"button\" hx-post=\"/api/logout\" hx>Logout</button>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<h2>User Page</h2><hr><form hx-post=\"/api/dashboard/users\" hx-target=\"#response\"><div><label for=\"name\">Name:</label> <input type=\"text\" id=\"name\" name=\"name\" required></div><div><label for=\"surname\">Surname:</label> <input type=\"text\" id=\"surname\" name=\"surname\" required></div><div><label for=\"email\">Email:</label> <input type=\"email\" id=\"email\" name=\"email\" required></div><div><label for=\"password\">Password:</label> <input type=\"password\" id=\"password\" name=\"password\" required></div><button type=\"submit\">Sign Up</button></form><hr><div id=\"response\"></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

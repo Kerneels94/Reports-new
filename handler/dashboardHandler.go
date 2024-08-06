@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"net/http"
 
+	supa "github.com/nedpals/supabase-go"
+
 	"github.com/kerneels94/reports/config"
 	"github.com/kerneels94/reports/functions"
 	"github.com/kerneels94/reports/view/dashboard"
@@ -61,4 +63,77 @@ func (h DashboardHandler) HandleLogout(c echo.Context) error {
 	functions.HtmxRedirect(c, "/login")
 
 	return c.JSON(http.StatusOK, map[string]string{"message": "Logged out successfully"})
+}
+
+// Dashboard - Users
+func (h DashboardHandler) HandleUsers(c echo.Context) error {
+	supabaseClient, err := functions.CreateSupabaseClient()
+
+	if err != nil {
+		fmt.Println(err)
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": err.Error()})
+	}
+
+	ctx := context.Background()
+
+	user, err := supabaseClient.Auth.User(ctx, config.GetUserToken())
+
+	if err != nil {
+		fmt.Println(err)
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "An error occurred or you are not logged in."})
+	}
+
+	if user == nil {
+		return c.JSON(http.StatusUnauthorized, map[string]string{"error": "Unauthorized"})
+	}
+
+	return render(c, dashboard.DashboardUsersPage())
+}
+
+// Dashboard - Users - Add User
+func (h DashboardHandler) HandleAddUser(c echo.Context) error {
+	email := c.FormValue("email")
+	password := c.FormValue("password")
+
+	if email == "" || password == "" {
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": "Email and password are required"})
+	}
+
+	supabaseClient, err := functions.CreateSupabaseClient()
+
+	if err != nil {
+		fmt.Println(err)
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": err.Error()})
+	}
+
+	ctx := context.Background()
+
+	// Add user
+	_, err = supabaseClient.Auth.SignUp(ctx, supa.UserCredentials{
+		Email:    email,
+		Password: password,
+	})
+
+	if err != nil {
+		fmt.Println(err)
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "An while adding user"})
+	}
+// todo find another way todo this
+	row := User{
+		ID:        "todo",
+		FirstName: c.FormValue("name"),
+		LastName:  c.FormValue("surname"),
+		Role:      "admin",
+	}
+
+	// Add data to the user table
+	var results []User
+	err = supabaseClient.DB.From("users").Insert(row).Execute(&results)
+
+	if err != nil {
+		fmt.Println(err)
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "An error occurred while creating user"})
+	}
+
+	return c.JSON(http.StatusOK, "Account added")
 }
