@@ -20,10 +20,12 @@ func (h SignUpHandler) HandleSignUp(c echo.Context) error {
 
 func (h SignUpHandler) HandleUserSignUp(c echo.Context) error {
 	email := c.FormValue("email")
+	firstName := c.FormValue("firstName")
+	lastName := c.FormValue("lastName")
 	password := c.FormValue("password")
 
-	if email == "" || password == "" || len(email) <= 0 || len(password) <= 0 {
-		return c.JSON(http.StatusBadRequest, map[string]string{"error": "Email and password are required"})
+	if email == "" || password == "" || len(email) <= 0 || len(password) <= 0 || firstName == "" || len(firstName) <= 0 || lastName == "" || len(lastName) <= 0 {
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": "Please check your credentials"})
 	}
 
 	supabaseClient, err := functions.CreateSupabaseClient()
@@ -38,11 +40,15 @@ func (h SignUpHandler) HandleUserSignUp(c echo.Context) error {
 	_, err = supabaseClient.Auth.SignUp(ctx, supa.UserCredentials{
 		Email:    email,
 		Password: password,
+		Data: map[string]interface{}{
+			"firstName": firstName,
+			"lastName":  lastName,
+		},
 	})
 
 	if err != nil {
 		fmt.Println(err)
-		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "An error occurred"})
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "An error while signing up but you won't know what it is! because it's golang"})
 	}
 
 	functions.HtmxRedirect(c, "/login")
