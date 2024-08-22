@@ -139,23 +139,46 @@ func (h DashboardHandler) HandleAddUser(c echo.Context) error {
 }
 
 // Dashboard - Users - Get All Users
-func (h DashboardHandler) HandleGetAllUser(c echo.Context) error {
+func (h DashboardHandler) HandleGetAllUser(c echo.Context) ([]dashboard.User, error) {
 	supabaseClient, err := functions.CreateSupabaseClient()
 
 	if err != nil {
 		fmt.Println(err)
 		fmt.Print("Error HandleGetAllUser Line 147")
-		return c.JSON(http.StatusInternalServerError, map[string]string{"error": err.Error()})
+		return nil, c.JSON(http.StatusInternalServerError, map[string]string{"error": err.Error()})
 	}
 
 	var results []map[string]interface{}
 
+	// Get all users
 	err = supabaseClient.DB.From("users").Select("*").Execute(&results)
 	if err != nil {
 		fmt.Println(err)
 		fmt.Print("Error HandleGetAllUser Line 155")
+		return nil, c.JSON(http.StatusInternalServerError, map[string]string{"error": err.Error()})
+	}
+
+	// Format the results
+	var users []dashboard.User
+    for _, result := range results {
+        user := dashboard.User{
+            Email: result["email"].(string),
+        }
+        users = append(users, user)
+    }
+
+    return users, nil
+}
+
+// Dashboard - Users - Table Page
+func (h DashboardHandler) HandleDashboardUsersTablePage(c echo.Context) error {
+	users, err := h.HandleGetAllUser(c)
+
+	if err != nil {
+		fmt.Println(err)
+		fmt.Print("Error HandleGetAllUser Line 169")
 		return c.JSON(http.StatusInternalServerError, map[string]string{"error": err.Error()})
 	}
 
-	return c.JSON(http.StatusOK, results)
+	return render(c, dashboard.DashboardUserTablePage(users))
 }

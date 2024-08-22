@@ -45,8 +45,9 @@ func main() {
 	app.GET("/dashboard", dashboardHandler.HandleDashboard)
 
 	// Dashboard users
-	app.GET("/dashboard/users", dashboardHandler.HandleUsers)
-	app.GET("/api/dashboard/users", dashboardHandler.HandleGetAllUser) // Get users
+	// app.GET("/dashboard/users", dashboardHandler.HandleUsers)
+	app.GET("/dashboard/users", dashboardHandler.HandleDashboardUsersTablePage) // Display users in table
+	// app.GET("/api/dashboard/users", dashboardHandler.HandleGetAllUser) // Get users
 	app.POST("/api/dashboard/users", dashboardHandler.HandleAddUser) // Add user
 
 	reportHandler := handler.CreateReportHandler{} 
