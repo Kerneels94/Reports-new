@@ -7,5 +7,11 @@ templ DashboardPage() {
 		@generateReport()
 		<h2>DashboardPage</h2>
 		<button type="button" hx-post="/api/logout" hx>Logout</button>
+		// Tabs
+		<div class="links">
+			<button type="button" hx-get="/api/dashboard/users" hx-target="#dashboard-content">Users</button>
+		</div>
+		// Content
+		<div id="dashboard-content"></div>
 	}
 }

@@ -118,7 +118,7 @@ func (h DashboardHandler) HandleAddUser(c echo.Context) error {
 		fmt.Println(err)
 		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "An while adding user"})
 	}
-// todo find another way todo this
+	// todo find another way todo this
 	row := User{
 		ID:        "todo",
 		FirstName: c.FormValue("name"),
@@ -136,4 +136,26 @@ func (h DashboardHandler) HandleAddUser(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, "Account added")
+}
+
+// Dashboard - Users - Get All Users
+func (h DashboardHandler) HandleGetAllUser(c echo.Context) error {
+	supabaseClient, err := functions.CreateSupabaseClient()
+
+	if err != nil {
+		fmt.Println(err)
+		fmt.Print("Error HandleGetAllUser Line 147")
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": err.Error()})
+	}
+
+	var results []map[string]interface{}
+
+	err = supabaseClient.DB.From("users").Select("*").Execute(&results)
+	if err != nil {
+		fmt.Println(err)
+		fmt.Print("Error HandleGetAllUser Line 155")
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": err.Error()})
+	}
+
+	return c.JSON(http.StatusOK, results)
 }
