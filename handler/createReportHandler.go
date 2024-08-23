@@ -9,18 +9,18 @@ import (
 )
 
 type ReportsData struct {
-	ID                    int
-	IncidentDate          string
-	TypeOfReport          string
-	ClientName            string
-	ClientSurname         string
-	ClientAddress         string
-	RespondingOfficerName string
-	ResponderCallSign     string
-	ResponderArrivalTime  string
-	OperatorName          string
-	OperatorRank          string
-	Report                string
+	ID                    int    `json:"id"`
+	IncidentDate          string `json:"incidentDate"`
+	TypeOfReport          string `json:"typeOfReport"`
+	ClientName            string `json:"clientName"`
+	ClientSurname         string `json:"clientSurname"`
+	ClientAddress         string `json:"clientAddress"`
+	RespondingOfficerName string `json:"respondingOfficerName"`
+	ResponderCallSign     string `json:"responderCallSign"`
+	ResponderArrivalTime  string `json:"responderArrivalTime"`
+	OperatorName          string `json:"operatorName"`
+	OperatorPosition      string `json:"operatorPosition"`
+	Report                string `json:"report"`
 }
 
 type CreateReportHandler struct{}
@@ -34,7 +34,8 @@ func (h CreateReportHandler) HandleCreateReport(c echo.Context) error {
 
 	if err != nil {
 		fmt.Println(err)
-		return c.JSON(http.StatusInternalServerError, map[string]string{"error": err.Error()})
+		fmt.Println("Error from line 37 handleCreateReport handler")
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": err.Error()}) // return 500
 	}
 
 	incidentDate := c.FormValue("incidentDate")
@@ -46,7 +47,7 @@ func (h CreateReportHandler) HandleCreateReport(c echo.Context) error {
 	responderTime := c.FormValue("responderTime")
 	responderCallSign := c.FormValue("responderCallSign")
 	operatorName := c.FormValue("operatorName")
-	operatorRank := c.FormValue("operatorRank")
+	operatorPosition := c.FormValue("operatorPosition")
 	report := c.FormValue("report")
 
 	query := ReportsData{
@@ -59,7 +60,7 @@ func (h CreateReportHandler) HandleCreateReport(c echo.Context) error {
 		ResponderCallSign:     responderCallSign,
 		ResponderArrivalTime:  responderTime,
 		OperatorName:          operatorName,
-		OperatorRank:          operatorRank,
+		OperatorPosition:      operatorPosition,
 		Report:                report,
 	}
 
@@ -68,7 +69,8 @@ func (h CreateReportHandler) HandleCreateReport(c echo.Context) error {
 
 	if err != nil {
 		fmt.Println(err)
-		return c.JSON(http.StatusBadRequest, map[string]string{"error": err.Error()})
+		fmt.Println("Error from line 71 handleCreateReport handler")
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": err.Error()}) // return 400
 	}
 
 	return c.JSON(http.StatusOK, "Report created")

@@ -26,20 +26,20 @@ func main() {
 
 	// app.Use(withUser)
 
-	mainPageHandler := handler.MainPageHandler{} 
+	mainPageHandler := handler.MainPageHandler{}
 	app.GET("/", mainPageHandler.HandleShowMainPage)
 
 	loginHandler := handler.LoginHandler{}
 	app.GET("/login", loginHandler.HandleUserLogin)
 	app.POST("/api/login", loginHandler.HandleUserLoginLogin)
- 
+
 	signUpHandler := handler.SignUpHandler{}
-	app.GET("/sign-up", signUpHandler.HandleSignUp) 
+	app.GET("/sign-up", signUpHandler.HandleSignUp)
 	app.POST("/api/sign-up", signUpHandler.HandleUserSignUp)
 
-	noteHandler := handler.NotesHandler{}  
+	noteHandler := handler.NotesHandler{}
 	app.GET("/notes", noteHandler.HandleNotes)
- 
+
 	// Dashboard
 	dashboardHandler := handler.DashboardHandler{}
 	app.GET("/dashboard", dashboardHandler.HandleDashboard)
@@ -47,14 +47,14 @@ func main() {
 	app.GET("/dashboard/users", dashboardHandler.HandleUsers)
 	app.POST("/api/dashboard/users", dashboardHandler.HandleAddUser)
 
-	reportHandler := handler.CreateReportHandler{} 
+	reportHandler := handler.CreateReportHandler{}
 	app.GET("/reports", reportHandler.HandleCreateReport)
 
 	// logout
 	app.POST("/api/logout", dashboardHandler.HandleLogout)
- 
+
 	app.Start(":3000")
- 
+
 }
 
 // Middleware
