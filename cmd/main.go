@@ -52,6 +52,7 @@ func main() {
 
 	reportHandler := handler.CreateReportHandler{}
 	app.GET("/reports", reportHandler.HandleShowCreateReportForm)
+	app.POST("/api/dashboard/reports", reportHandler.HandleCreateReport)
 
 	// logout
 	app.POST("/api/logout", dashboardHandler.HandleLogout)

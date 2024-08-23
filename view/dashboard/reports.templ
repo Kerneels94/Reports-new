@@ -3,9 +3,51 @@ package dashboard
 import "github.com/kerneels94/reports/view/layout"
 
 templ CreateReportForm() {
-	@layout.Base() { 
-		<form>
-			<h1>Generate Report</h1>
+	@layout.Base() {
+		<form hx-post="/api/dashboard/reports" hx-target="#response">
+			<div>
+				<label for="incidentDate">Incident Date:</label>
+				<input type="date" id="incidentDate" name="incidentDate" required/>
+			</div>
+			<div>
+				<label for="typeOfReport">Type of report:</label>
+				<input type="text" id="typeOfReport" name="typeOfReport" value="attempted" required/>
+			</div>
+			<div>
+				<label for="clientName">Name:</label>
+				<input type="text" id="clientName" name="clientName" required/>
+			</div>
+			<div>
+				<label for="clientSurname">Surname:</label>
+				<input type="text" id="clientSurname" name="clientSurname" required/>
+			</div>
+			<div>
+				<label for="clientAddress">Address:</label>
+				<input type="text" id="clientAddress" name="clientAddress" required/>
+			</div>
+			<div>
+				<label for="responderTime">Responding time:</label>
+				<input type="time" id="responderTime" name="responderTime" required/>
+			</div>
+			<div>
+				<label for="responderCallSign">Vehicle call sign:</label>
+				<input type="text" id="responderCallSign" name="responderCallSign" required/>
+			</div>
+			<div>
+				<label for="operatorName">Operator name:</label>
+				<input type="text" id="operatorName" name="operatorName" required/>
+			</div>
+			<div>
+				<label for="operatorPosition">Operator position:</label>
+				<input type="text" id="operatorPosition" name="operatorPosition" required/>
+			</div>
+			<div>
+				<label for="report">Report:</label>
+				<textarea cols="10" rows="10" name="report" id="report"/>
+			</div>
+			<button type="submit">Create Report</button>
 		</form>
+		<hr/>
+		<div id="response"></div>
 	}
 }

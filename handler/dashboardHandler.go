@@ -160,14 +160,14 @@ func (h DashboardHandler) HandleGetAllUser(c echo.Context) ([]dashboard.User, er
 
 	// Format the results
 	var users []dashboard.User
-    for _, result := range results {
-        user := dashboard.User{
-            Email: result["email"].(string),
-        }
-        users = append(users, user)
-    }
+	for _, result := range results {
+		user := dashboard.User{
+			Email: result["email"].(string),
+		}
+		users = append(users, user)
+	}
 
-    return users, nil
+	return users, nil
 }
 
 // Dashboard - Users - Table Page
