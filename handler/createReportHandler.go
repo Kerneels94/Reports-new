@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/kerneels94/reports/functions"
+	"github.com/kerneels94/reports/view/dashboard"
 	"github.com/labstack/echo/v4"
 )
 
@@ -25,10 +26,7 @@ type ReportsData struct {
 
 type CreateReportHandler struct{}
 
-/*
-	Handler for creating a report
-*/
-
+// Handler for creating a report
 func (h CreateReportHandler) HandleCreateReport(c echo.Context) error {
 	supabaseClient, err := functions.CreateSupabaseClient()
 
@@ -38,6 +36,7 @@ func (h CreateReportHandler) HandleCreateReport(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"error": err.Error()}) // return 500
 	}
 
+	// Get form values
 	incidentDate := c.FormValue("incidentDate")
 	typeOfReport := c.FormValue("typeOfReport")
 	clientName := c.FormValue("clientName")
@@ -50,6 +49,7 @@ func (h CreateReportHandler) HandleCreateReport(c echo.Context) error {
 	operatorPosition := c.FormValue("operatorPosition")
 	report := c.FormValue("report")
 
+	// Prepare query
 	query := ReportsData{
 		IncidentDate:          incidentDate,
 		TypeOfReport:          typeOfReport,
@@ -77,11 +77,7 @@ func (h CreateReportHandler) HandleCreateReport(c echo.Context) error {
 
 }
 
-/*
-	FUnction to display report
-*/
-
-// func (h CreateReportHandler) HandleShowReport(c echo.Context) error {
-
-// 	return render(c, report.DashboardPage())
-// }
+// Function to display create report form
+func (h CreateReportHandler) HandleShowCreateReportForm(c echo.Context) error {
+	return render(c, dashboard.CreateReportForm())
+}

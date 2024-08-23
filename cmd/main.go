@@ -51,13 +51,12 @@ func main() {
 	app.POST("/api/dashboard/users", dashboardHandler.HandleAddUser) // Add user
 
 	reportHandler := handler.CreateReportHandler{}
-	app.GET("/reports", reportHandler.HandleCreateReport)
+	app.GET("/reports", reportHandler.HandleShowCreateReportForm)
 
 	// logout
 	app.POST("/api/logout", dashboardHandler.HandleLogout)
 
 	app.Start(":3000")
-
 }
 
 // Middleware
