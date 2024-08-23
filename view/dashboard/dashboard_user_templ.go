@@ -10,7 +10,11 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import "github.com/kerneels94/reports/view/layout"
 
-func DashboardPage() templ.Component {
+type User struct {
+	Email string
+}
+
+func DashboardUserTablePage(users []User) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
@@ -40,11 +44,30 @@ func DashboardPage() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = generateReport().Render(ctx, templ_7745c5c3_Buffer)
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<h2>User Page</h2><hr><table class=\"table delete-row-example\"><thead><tr><th>Name</th><th>Email</th><th>Status</th><th></th></tr></thead><tbody hx-confirm=\"Are you sure?\" hx-target=\"closest tr\" hx-swap=\"outerHTML swap:1s\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" <h2>DashboardPage</h2><button type=\"button\" hx-post=\"/api/logout\" hx>Logout</button> <div class=\"links\"><button type=\"button\" hx-get=\"/dashboard/users\" hx-target=\"#dashboard-content\">Users</button></div> <div id=\"dashboard-content\"></div>")
+			for _, user := range users {
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<tr><td>")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				var templ_7745c5c3_Var3 string
+				templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(user.Email)
+				if templ_7745c5c3_Err != nil {
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `dashboard_user.templ`, Line: 27, Col: 22}
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</td><td><button class=\"btn danger\" hx-delete=\"/contact/1\">Delete</button></td></tr>")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</tbody></table><style>\r\n\t\t\ttr.htmx-swapping td {\r\n\t\t\topacity: 0;\r\n\t\t\ttransition: opacity 1s ease-out;\r\n\t\t}\r\n\t\t</style>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

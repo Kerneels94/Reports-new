@@ -1,0 +1,42 @@
+package dashboard
+
+import "github.com/kerneels94/reports/view/layout"
+
+type User struct {
+	Email string
+}
+
+templ DashboardUserTablePage(users []User) {
+	@layout.Base() {
+		<h2>User Page</h2>
+		<hr/>
+		<table class="table delete-row-example">
+			// Head
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Email</th>
+				</tr>
+			</thead>
+			// Body
+			<tbody hx-confirm="Are you sure?" hx-target="closest tr" hx-swap="outerHTML swap:1s">
+				for _, user := range users {
+					<tr>
+						<td>{ user.Email }</td>
+						<td>
+							<button class="btn danger">
+								Delete
+							</button>
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+		<style>
+			tr.htmx-swapping td {
+			opacity: 0;
+			transition: opacity 1s ease-out;
+		}
+		</style>
+	}
+}
