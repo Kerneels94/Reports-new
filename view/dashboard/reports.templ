@@ -1,7 +1,11 @@
 package dashboard
 
-templ generateReport() {
-	<form>
-		<h1>Generate Report</h1>
-	</form>
+import "github.com/kerneels94/reports/view/layout"
+
+templ CreateReportPage() {
+	@layout.Base() { 
+		<form>
+			<h1>Generate Report</h1>
+		</form>
+	}
 }

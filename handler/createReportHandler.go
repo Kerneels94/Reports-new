@@ -76,3 +76,12 @@ func (h CreateReportHandler) HandleCreateReport(c echo.Context) error {
 	return c.JSON(http.StatusOK, "Report created")
 
 }
+
+/*
+	FUnction to display report
+*/
+
+// func (h CreateReportHandler) HandleShowReport(c echo.Context) error {
+
+// 	return render(c, report.DashboardPage())
+// }

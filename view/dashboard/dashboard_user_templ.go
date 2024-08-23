@@ -44,7 +44,7 @@ func DashboardUserTablePage(users []User) templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<h2>User Page</h2><hr><table class=\"table delete-row-example\"><thead><tr><th>Name</th><th>Email</th><th>Status</th><th></th></tr></thead><tbody hx-confirm=\"Are you sure?\" hx-target=\"closest tr\" hx-swap=\"outerHTML swap:1s\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<h2>User Page</h2><hr><table class=\"table delete-row-example\"><thead><tr><th>Name</th><th>Email</th></tr></thead><tbody hx-confirm=\"Are you sure?\" hx-target=\"closest tr\" hx-swap=\"outerHTML swap:1s\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -56,13 +56,13 @@ func DashboardUserTablePage(users []User) templ.Component {
 				var templ_7745c5c3_Var3 string
 				templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(user.Email)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `dashboard_user.templ`, Line: 27, Col: 22}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `dashboard_user.templ`, Line: 25, Col: 22}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</td><td><button class=\"btn danger\" hx-delete=\"/contact/1\">Delete</button></td></tr>")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</td><td><button class=\"btn danger\">Delete</button></td></tr>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
