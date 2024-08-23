@@ -12,19 +12,19 @@ import (
 )
 
 type ReportsData struct {
-	ID                    int    `json:"id"`
-	IncidentDate          string `json:"incidentDate"`
-	TypeOfReport          string `json:"typeOfReport"`
-	ClientName            string `json:"clientName"`
-	ClientSurname         string `json:"clientSurname"`
-	ClientAddress         string `json:"clientAddress"`
-	RespondingOfficerName string `json:"respondingOfficerName"`
-	ResponderCallSign     string `json:"responderCallSign"`
-	ResponderArrivalTime  string `json:"responderArrivalTime"`
-	OperatorName          string `json:"operatorName"`
-	OperatorPosition      string `json:"operatorPosition"`
+	// ID                    int    `json:"id"`
+	// IncidentDate          string `json:"incident_date"`
+	// TypeOfReport          string `json:"type_of_report"`
+	ClientName            string `json:"client_name"`
+	ClientSurname         string `json:"client_surname"`
+	ClientAddress         string `json:"client_address"`
+	// RespondingOfficerName string `json:"responding_officer_name"`
+	// ResponderCallSign     string `json:"responder_call_sign"`
+	// ResponderArrivalTime  string `json:"responder_arrival_time"`
+	OperatorName          string `json:"operator_name"`
+	OperatorPosition      string `json:"operator_position"`
 	Report                string `json:"report"`
-	UserId                string `json:"userId"`
+	UserId                string `json:"user_id"`
 }
 
 type CreateReportHandler struct{}
@@ -55,28 +55,28 @@ func (h CreateReportHandler) HandleCreateReport(c echo.Context) error {
 	userId := user.ID
 
 	// Get form values
-	incidentDate := c.FormValue("incidentDate")
-	typeOfReport := c.FormValue("typeOfReport")
+	// incidentDate := c.FormValue("incidentDate")
+	// typeOfReport := c.FormValue("typeOfReport")
 	clientName := c.FormValue("clientName")
 	clientSurname := c.FormValue("clientSurname")
 	clientAddress := c.FormValue("clientAddress")
-	responderName := c.FormValue("responderName")
-	responderTime := c.FormValue("responderTime")
-	responderCallSign := c.FormValue("responderCallSign")
+	// responderName := c.FormValue("responderName")
+	// responderTime := c.FormValue("responderTime")
+	// responderCallSign := c.FormValue("responderCallSign")
 	operatorName := c.FormValue("operatorName")
 	operatorPosition := c.FormValue("operatorPosition")
 	report := c.FormValue("report")
 
 	// Prepare query
 	query := ReportsData{
-		IncidentDate:          incidentDate,
-		TypeOfReport:          typeOfReport,
+		// IncidentDate:          incidentDate,
+		// TypeOfReport:          typeOfReport,
 		ClientName:            clientName,
 		ClientAddress:         clientAddress,
 		ClientSurname:         clientSurname,
-		RespondingOfficerName: responderName,
-		ResponderCallSign:     responderCallSign,
-		ResponderArrivalTime:  responderTime,
+		// RespondingOfficerName: responderName,
+		// ResponderCallSign:     responderCallSign,
+		// ResponderArrivalTime:  responderTime,
 		OperatorName:          operatorName,
 		OperatorPosition:      operatorPosition,
 		Report:                report,
@@ -84,7 +84,7 @@ func (h CreateReportHandler) HandleCreateReport(c echo.Context) error {
 	}
 
 	var results []ReportsData
-	err = supabaseClient.DB.From("reports").Insert(query).Execute(&results)
+	err = supabaseClient.DB.From("cake").Insert(query).Execute(&results)
 
 	if err != nil {
 		fmt.Println(err)
