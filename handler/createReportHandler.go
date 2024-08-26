@@ -3,6 +3,7 @@ package handler
 import (
 	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/kerneels94/reports/config"
 	"github.com/kerneels94/reports/functions"
@@ -13,13 +14,21 @@ import (
 type ReportsData struct {
 	// ID                    int    `json:"id"`
 	IncidentDate string `json:"incident_date"`
+	IncidentDate string `json:"incident_date"`
 	// TypeOfReport          string `json:"type_of_report"`
+	ClientName    string `json:"client_name"`
+	ClientSurname string `json:"client_surname"`
+	ClientAddress string `json:"client_address"`
 	ClientName    string `json:"client_name"`
 	ClientSurname string `json:"client_surname"`
 	ClientAddress string `json:"client_address"`
 	// RespondingOfficerName string `json:"responding_officer_name"`
 	// ResponderCallSign     string `json:"responder_call_sign"`
 	// ResponderArrivalTime  string `json:"responder_arrival_time"`
+	OperatorName     string `json:"operator_name"`
+	OperatorPosition string `json:"operator_position"`
+	Report           string `json:"report"`
+	UserId           string `json:"user_id"`
 	OperatorName     string `json:"operator_name"`
 	OperatorPosition string `json:"operator_position"`
 	Report           string `json:"report"`
