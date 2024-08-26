@@ -6,6 +6,8 @@ import (
 	"time"
 	"net/http"
 
+	supa "github.com/nedpals/supabase-go"
+
 	"github.com/kerneels94/reports/functions"
 
 	"github.com/labstack/echo/v4"
@@ -69,4 +71,28 @@ func IsCookieValid(r *http.Request, c echo.Context) bool {
 	}
 
 	return true
+}
+
+func GetUserIdFromCookie(r *http.Request, c echo.Context, spbase *supa.Client) string {
+	cookie, err := r.Cookie("user_access_token")
+	if err != nil {
+		fmt.Println("Error retrieving cookie:", err)
+		return ""
+	}
+
+	ctx := context.Background()
+
+	user, err := spbase.Auth.User(ctx, cookie.Value)
+
+	if err != nil {
+		fmt.Println("Error retrieving user:", err)
+		return ""
+	}
+
+	if user == nil {
+		fmt.Println("User not found")
+		return ""
+	}
+
+	return user.ID
 }
