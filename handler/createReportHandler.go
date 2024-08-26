@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/kerneels94/reports/config"
 	"github.com/kerneels94/reports/functions"
@@ -13,18 +14,18 @@ import (
 
 type ReportsData struct {
 	// ID                    int    `json:"id"`
-	// IncidentDate          string `json:"incident_date"`
+	IncidentDate string `json:"incident_date"`
 	// TypeOfReport          string `json:"type_of_report"`
-	ClientName            string `json:"client_name"`
-	ClientSurname         string `json:"client_surname"`
-	ClientAddress         string `json:"client_address"`
+	ClientName    string `json:"client_name"`
+	ClientSurname string `json:"client_surname"`
+	ClientAddress string `json:"client_address"`
 	// RespondingOfficerName string `json:"responding_officer_name"`
 	// ResponderCallSign     string `json:"responder_call_sign"`
 	// ResponderArrivalTime  string `json:"responder_arrival_time"`
-	OperatorName          string `json:"operator_name"`
-	OperatorPosition      string `json:"operator_position"`
-	Report                string `json:"report"`
-	UserId                string `json:"user_id"`
+	OperatorName     string `json:"operator_name"`
+	OperatorPosition string `json:"operator_position"`
+	Report           string `json:"report"`
+	UserId           string `json:"user_id"`
 }
 
 type CreateReportHandler struct{}
@@ -54,7 +55,22 @@ func (h CreateReportHandler) HandleCreateReport(c echo.Context) error {
 
 	userId := user.ID
 
-	// Get form values
+	// Get the date from the form
+	// Get the date from the form
+	incidentDate := c.FormValue("incidentDate") // This should be in a string format like "2024-08-26"
+
+	// Parse the date string into a time.Time object
+	parsedDate, err := time.Parse("2006-01-02", incidentDate)
+	if err != nil {
+		fmt.Println("Date could not be parsed. Check the format. It should be in the format YYYY-MM-DD.", err)
+	}
+
+	// Format the parsed date to a string that matches the database timestamp format
+	formattedDate := parsedDate.Format("2006-01-02 15:04:05")
+
+	// Pass `formattedDate` to the database
+	fmt.Println("Formatted Date for DB:", formattedDate)
+
 	// incidentDate := c.FormValue("incidentDate")
 	// typeOfReport := c.FormValue("typeOfReport")
 	clientName := c.FormValue("clientName")
@@ -69,18 +85,18 @@ func (h CreateReportHandler) HandleCreateReport(c echo.Context) error {
 
 	// Prepare query
 	query := ReportsData{
-		// IncidentDate:          incidentDate,
+		IncidentDate: incidentDate,
 		// TypeOfReport:          typeOfReport,
-		ClientName:            clientName,
-		ClientAddress:         clientAddress,
-		ClientSurname:         clientSurname,
+		ClientName:    clientName,
+		ClientAddress: clientAddress,
+		ClientSurname: clientSurname,
 		// RespondingOfficerName: responderName,
 		// ResponderCallSign:     responderCallSign,
 		// ResponderArrivalTime:  responderTime,
-		OperatorName:          operatorName,
-		OperatorPosition:      operatorPosition,
-		Report:                report,
-		UserId:                userId,
+		OperatorName:     operatorName,
+		OperatorPosition: operatorPosition,
+		Report:           report,
+		UserId:           userId,
 	}
 
 	var results []ReportsData
