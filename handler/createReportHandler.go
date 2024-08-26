@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"context"
 	"fmt"
 	"net/http"
 
@@ -13,18 +12,18 @@ import (
 
 type ReportsData struct {
 	// ID                    int    `json:"id"`
-	// IncidentDate          string `json:"incident_date"`
+	IncidentDate string `json:"incident_date"`
 	// TypeOfReport          string `json:"type_of_report"`
-	ClientName            string `json:"client_name"`
-	ClientSurname         string `json:"client_surname"`
-	ClientAddress         string `json:"client_address"`
+	ClientName    string `json:"client_name"`
+	ClientSurname string `json:"client_surname"`
+	ClientAddress string `json:"client_address"`
 	// RespondingOfficerName string `json:"responding_officer_name"`
 	// ResponderCallSign     string `json:"responder_call_sign"`
 	// ResponderArrivalTime  string `json:"responder_arrival_time"`
-	OperatorName          string `json:"operator_name"`
-	OperatorPosition      string `json:"operator_position"`
-	Report                string `json:"report"`
-	UserId                string `json:"user_id"`
+	OperatorName     string `json:"operator_name"`
+	OperatorPosition string `json:"operator_position"`
+	Report           string `json:"report"`
+	UserId           string `json:"user_id"`
 }
 
 type CreateReportHandler struct{}
@@ -39,23 +38,16 @@ func (h CreateReportHandler) HandleCreateReport(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"error": err.Error()}) // return 500
 	}
 
-	ctx := context.Background()
-
-	user, err := supabaseClient.Auth.User(ctx, config.GetUserToken())
+	userId, err := config.GetUserIdFromCookie(c.Request(), c.Echo().AcquireContext(), supabaseClient)
 
 	if err != nil {
 		fmt.Println(err)
-		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "An error occurred coould not fetch reports data"})
+		fmt.Println("Error from line 47 handleCreateReport handler")
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": err.Error()}) // return 500
 	}
-
-	if user == nil {
-		return c.JSON(http.StatusUnauthorized, map[string]string{"error": "Unauthorized"})
-	}
-
-	userId := user.ID
 
 	// Get form values
-	// incidentDate := c.FormValue("incidentDate")
+	incidentDate := c.FormValue("incidentDate")
 	// typeOfReport := c.FormValue("typeOfReport")
 	clientName := c.FormValue("clientName")
 	clientSurname := c.FormValue("clientSurname")
@@ -69,18 +61,18 @@ func (h CreateReportHandler) HandleCreateReport(c echo.Context) error {
 
 	// Prepare query
 	query := ReportsData{
-		// IncidentDate:          incidentDate,
+		IncidentDate: incidentDate,
 		// TypeOfReport:          typeOfReport,
-		ClientName:            clientName,
-		ClientAddress:         clientAddress,
-		ClientSurname:         clientSurname,
+		ClientName:    clientName,
+		ClientAddress: clientAddress,
+		ClientSurname: clientSurname,
 		// RespondingOfficerName: responderName,
 		// ResponderCallSign:     responderCallSign,
 		// ResponderArrivalTime:  responderTime,
-		OperatorName:          operatorName,
-		OperatorPosition:      operatorPosition,
-		Report:                report,
-		UserId:                userId,
+		OperatorName:     operatorName,
+		OperatorPosition: operatorPosition,
+		Report:           report,
+		UserId:           userId,
 	}
 
 	var results []ReportsData
@@ -98,24 +90,5 @@ func (h CreateReportHandler) HandleCreateReport(c echo.Context) error {
 
 // Function to display create report form
 func (h CreateReportHandler) HandleShowCreateReportForm(c echo.Context) error {
-	supabaseClient, err := functions.CreateSupabaseClient()
-
-	if err != nil {
-		return c.JSON(http.StatusBadRequest, map[string]string{"error": "mhe"})
-	}
-
-	ctx := context.Background()
-
-	user, err := supabaseClient.Auth.User(ctx, config.GetUserToken())
-
-	if err != nil {
-		fmt.Println(err)
-		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "An error occurred or you are not logged in."})
-	}
-
-	if user == nil {
-		return c.JSON(http.StatusUnauthorized, map[string]string{"error": "Unauthorized"})
-	}
-
 	return render(c, dashboard.CreateReportForm())
 }

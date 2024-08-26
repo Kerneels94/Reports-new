@@ -73,11 +73,11 @@ func IsCookieValid(r *http.Request, c echo.Context) bool {
 	return true
 }
 
-func GetUserIdFromCookie(r *http.Request, c echo.Context, spbase *supa.Client) string {
+func GetUserIdFromCookie(r *http.Request, c echo.Context, spbase *supa.Client) (string, error) {
 	cookie, err := r.Cookie("user_access_token")
 	if err != nil {
 		fmt.Println("Error retrieving cookie:", err)
-		return ""
+		return "", err
 	}
 
 	ctx := context.Background()
@@ -86,13 +86,13 @@ func GetUserIdFromCookie(r *http.Request, c echo.Context, spbase *supa.Client) s
 
 	if err != nil {
 		fmt.Println("Error retrieving user:", err)
-		return ""
+		return "", err
 	}
 
 	if user == nil {
 		fmt.Println("User not found")
-		return ""
+		return "", err
 	}
 
-	return user.ID
+	return user.ID, nil
 }
