@@ -16,49 +16,11 @@ import (
 type DashboardHandler struct{}
 
 func (h DashboardHandler) HandleDashboard(c echo.Context) error {
-	supabaseClient, err := functions.CreateSupabaseClient()
-
-	if err != nil {
-		fmt.Println(err)
-		return c.JSON(http.StatusInternalServerError, map[string]string{"error": err.Error()})
-	}
-
-	ctx := context.Background()
-
-	user, err := supabaseClient.Auth.User(ctx, config.GetUserToken())
-
-	if err != nil {
-		fmt.Println(err)
-		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "An error occurred or you are not logged in."})
-	}
-
-	if user == nil {
-		return c.JSON(http.StatusUnauthorized, map[string]string{"error": "Unauthorized"})
-	}
-
-	fmt.Println(user)
-
 	return render(c, dashboard.DashboardPage())
 }
 
 func (h DashboardHandler) HandleLogout(c echo.Context) error {
-	supabaseClient, err := functions.CreateSupabaseClient()
-
-	if err != nil {
-		fmt.Println(err)
-		return c.JSON(http.StatusInternalServerError, map[string]string{"error": err.Error()})
-	}
-
-	ctx := context.Background()
-
-	err = supabaseClient.Auth.SignOut(ctx, config.GetUserToken())
-
-	if err != nil {
-		fmt.Println(err)
-		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "An error occurred while logging out"})
-	}
-
-	config.SetUserToken("")
+	config.CookieLogout(c.Response())
 
 	functions.HtmxRedirect(c, "/login")
 
@@ -67,26 +29,6 @@ func (h DashboardHandler) HandleLogout(c echo.Context) error {
 
 // Dashboard - Users
 func (h DashboardHandler) HandleUsers(c echo.Context) error {
-	supabaseClient, err := functions.CreateSupabaseClient()
-
-	if err != nil {
-		fmt.Println(err)
-		return c.JSON(http.StatusInternalServerError, map[string]string{"error": err.Error()})
-	}
-
-	ctx := context.Background()
-
-	user, err := supabaseClient.Auth.User(ctx, config.GetUserToken())
-
-	if err != nil {
-		fmt.Println(err)
-		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "An error occurred or you are not logged in."})
-	}
-
-	if user == nil {
-		return c.JSON(http.StatusUnauthorized, map[string]string{"error": "Unauthorized"})
-	}
-
 	return render(c, dashboard.DashboardUsersPage())
 }
 

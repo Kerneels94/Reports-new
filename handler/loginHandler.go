@@ -55,7 +55,7 @@ func (h LoginHandler) HandleUserLoginLogin(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"error": err.Error()})
 	}
 
-	config.SetUserToken(user.AccessToken)
+	config.SetCookie(c.Response().Writer, user.AccessToken)
 
 	functions.HtmxRedirect(c, "/dashboard")
 
