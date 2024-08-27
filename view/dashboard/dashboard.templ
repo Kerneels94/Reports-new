@@ -8,7 +8,7 @@ templ DashboardPage() {
 		<button type="button" hx-post="/api/logout" hx>Logout</button>
 		// Tabs
 		<div class="links">
-			// <button type="button" hx-get="/api/dashboard/users" hx-target="#dashboard-content">Users</button>
+			<button type="button" hx-get="/dashboard/reports" hx-target="#dashboard-content">Reports</button> | 
 			<button type="button" hx-get="/dashboard/users" hx-target="#dashboard-content">Users</button>
 		</div>
 		// Content

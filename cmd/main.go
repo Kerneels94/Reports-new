@@ -40,7 +40,7 @@ func main() {
 	app.POST("/api/sign-up", signUpHandler.HandleUserSignUp)
 
 	noteHandler := handler.NotesHandler{}
-	app.GET("/notes", noteHandler.HandleNotes)
+	app.GET("/notes", noteHandler.HandleNotes, userHasValidSessionMiddleWare)
 
 	// Dashboard
 	dashboardHandler := handler.DashboardHandler{}
@@ -52,12 +52,12 @@ func main() {
 	// app.GET("/api/dashboard/users", dashboardHandler.HandleGetAllUser) // Get users
 	app.POST("/api/dashboard/users", dashboardHandler.HandleAddUser, userHasValidSessionMiddleWare) // Add user
 
-	reportHandler := handler.CreateReportHandler{}
-	app.GET("/reports", reportHandler.HandleShowCreateReportForm, userHasValidSessionMiddleWare)
+	reportHandler := handler.ReportHandler{}
+	app.GET("/dashboard/reports", reportHandler.HandleShowCreateReportForm, userHasValidSessionMiddleWare)
 	app.POST("/api/dashboard/reports", reportHandler.HandleCreateReport, userHasValidSessionMiddleWare)
 
 	// logout
-	app.POST("/api/logout", dashboardHandler.HandleLogout)
+	app.POST("/api/logout", dashboardHandler.HandleLogout, userHasValidSessionMiddleWare)
 
 	app.Start(":3000")
 }
