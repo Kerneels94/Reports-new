@@ -27,10 +27,10 @@ type ReportsData struct {
 	UserId           string `json:"user_id"`
 }
 
-type CreateReportHandler struct{}
+type ReportHandler struct{}
 
 // Handler for creating a report
-func (h CreateReportHandler) HandleCreateReport(c echo.Context) error {
+func (h ReportHandler) HandleCreateReport(c echo.Context) error {
 	supabaseClient, err := functions.CreateSupabaseClient()
 
 	if err != nil {
@@ -90,6 +90,6 @@ func (h CreateReportHandler) HandleCreateReport(c echo.Context) error {
 }
 
 // Function to display create report form
-func (h CreateReportHandler) HandleShowCreateReportForm(c echo.Context) error {
+func (h ReportHandler) HandleShowCreateReportForm(c echo.Context) error {
 	return render(c, dashboard.CreateReportForm())
 }

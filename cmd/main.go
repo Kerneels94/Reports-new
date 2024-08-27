@@ -52,7 +52,7 @@ func main() {
 	// app.GET("/api/dashboard/users", dashboardHandler.HandleGetAllUser) // Get users
 	app.POST("/api/dashboard/users", dashboardHandler.HandleAddUser, userHasValidSessionMiddleWare) // Add user
 
-	reportHandler := handler.CreateReportHandler{}
+	reportHandler := handler.ReportHandler{}
 	app.GET("/reports", reportHandler.HandleShowCreateReportForm, userHasValidSessionMiddleWare)
 	app.POST("/api/dashboard/reports", reportHandler.HandleCreateReport, userHasValidSessionMiddleWare)
 
