@@ -93,3 +93,68 @@ func (h ReportHandler) HandleCreateReport(c echo.Context) error {
 func (h ReportHandler) HandleShowCreateReportForm(c echo.Context) error {
 	return render(c, dashboard.CreateReportForm())
 }
+
+// Dashboard - Users - Get All Users
+func (h ReportHandler) HandleGetAllReports(c echo.Context) ([]dashboard.Report, error) {
+	supabaseClient, err := functions.CreateSupabaseClient()
+
+	if err != nil {
+		fmt.Println(err)
+		fmt.Print("Error HandleGetAllReports Line 103")
+		return nil, c.JSON(http.StatusInternalServerError, map[string]string{"error": err.Error()})
+	}
+
+	var results []map[string]interface{}
+
+	// Get all users
+	err = supabaseClient.DB.From("cake").Select("*").Execute(&results)
+	if err != nil {
+		fmt.Println(err)
+		fmt.Print("Error HandleGetAllReports Line 113")
+		return nil, c.JSON(http.StatusInternalServerError, map[string]string{"error": err.Error()})
+	}
+
+	// Format the results
+	var reports []dashboard.Report
+	for _, result := range results {
+
+		var incidentDate string
+
+		if result["incident_date"] == nil {
+			incidentDate = "No date"
+		} else {
+			incidentDate = fmt.Sprintf("%s", result["incident_date"])
+		}
+
+		report := dashboard.Report{
+			IncidentDate: incidentDate,
+			// TypeOfReport:          result["typeOfReport"].(string),
+			// ClientName:            result["clientName"].(string),
+			// ClientSurname:         result["clientSurname"].(string),
+			// ClientAddress:         result["clientAddress"].(string),
+			// RespondingOfficerName: result["respondingOfficerName"].(string),
+			// ResponderCallSign:     result["responderCallSign"].(string),
+			// ResponderArrivalTime:  result["responderArrivalTime"].(string),
+			// OperatorName:          result["operatorName"].(string),
+			// OperatorPosition:      result["operatorPosition"].(string),
+			// Report:                result["report"].(string),
+			UserId: result["user_id"].(string),
+		}
+		reports = append(reports, report)
+	}
+
+	return reports, nil
+}
+
+// Dashboard - Users - Table Page
+func (h ReportHandler) HandleDashboardReportsTablePage(c echo.Context) error {
+	reports, err := h.HandleGetAllReports(c)
+
+	if err != nil {
+		fmt.Println(err)
+		fmt.Print("Error HandleGetAllUser Line 155")
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": err.Error()})
+	}
+
+	return render(c, dashboard.DashboardReportsTablePage(reports))
+}
