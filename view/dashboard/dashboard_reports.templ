@@ -1,7 +1,6 @@
 package dashboard
 
 import "github.com/kerneels94/reports/view/layout"
-import "github.com/kerneels94/reports/handler"
 
 type Report struct {
 	ID                    string
@@ -27,8 +26,8 @@ templ DashboardReportsTablePage(reports []Report) {
 			// Head
 			<thead>
 				<tr>
-					<th>Name</th>
-					<th>Email</th>
+					<th>Incident Date</th>
+					<th>Id</th>
 				</tr>
 			</thead>
 			// Body
@@ -36,16 +35,16 @@ templ DashboardReportsTablePage(reports []Report) {
 				for _, report := range reports {
 					<tr>
 						<td>{ report.IncidentDate }</td>
-						<td>{ report.TypeOfReport }</td>
-						<td>{ report.ClientName }</td>
-						<td>{ report.ClientSurname }</td>
-						<td>{ report.ClientAddress }</td>
-						<td>{ report.ResponderArrivalTime }</td>
-						<td>{ report.ResponderCallSign }</td>
-						<td>{ report.RespondingOfficerName }</td>
-						<td>{ report.OperatorName }</td>
-						<td>{ report.OperatorPosition }</td>
-						<td>{ report.Report }</td>
+						// <td>{ report.TypeOfReport }</td>
+						// <td>{ report.ClientName }</td>
+						// <td>{ report.ClientSurname }</td>
+						// <td>{ report.ClientAddress }</td>
+						// <td>{ report.ResponderArrivalTime }</td>
+						// <td>{ report.ResponderCallSign }</td>
+						// <td>{ report.RespondingOfficerName }</td>
+						// <td>{ report.OperatorName }</td>
+						// <td>{ report.OperatorPosition }</td>
+						// <td>{ report.Report }</td>
 						<td>{ report.UserId }</td>
 						<td>
 							<button class="btn danger">

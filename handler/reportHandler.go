@@ -100,36 +100,45 @@ func (h ReportHandler) HandleGetAllReports(c echo.Context) ([]dashboard.Report, 
 
 	if err != nil {
 		fmt.Println(err)
-		fmt.Print("Error HandleGetAllReports Line 147")
+		fmt.Print("Error HandleGetAllReports Line 103")
 		return nil, c.JSON(http.StatusInternalServerError, map[string]string{"error": err.Error()})
 	}
 
 	var results []map[string]interface{}
 
 	// Get all users
-	err = supabaseClient.DB.From("reports").Select("*").Execute(&results)
+	err = supabaseClient.DB.From("cake").Select("*").Execute(&results)
 	if err != nil {
 		fmt.Println(err)
-		fmt.Print("Error HandleGetAllReports Line 155")
+		fmt.Print("Error HandleGetAllReports Line 113")
 		return nil, c.JSON(http.StatusInternalServerError, map[string]string{"error": err.Error()})
 	}
 
 	// Format the results
 	var reports []dashboard.Report
 	for _, result := range results {
+
+		var incidentDate string
+
+		if result["incident_date"] == nil {
+			incidentDate = "No date"
+		} else {
+			incidentDate = fmt.Sprintf("%s", result["incident_date"])
+		}
+
 		report := dashboard.Report{
-			IncidentDate:          result["incidentReport"].(string),
-			TypeOfReport:          result["typeOfReport"].(string),
-			ClientName:            result["clientName"].(string),
-			ClientSurname:         result["clientSurname"].(string),
-			ClientAddress:         result["clientAddress"].(string),
-			RespondingOfficerName: result["respondingOfficerName"].(string),
-			ResponderCallSign:     result["responderCallSign"].(string),
-			ResponderArrivalTime:  result["responderArrivalTime"].(string),
-			OperatorName:          result["operatorName"].(string),
-			OperatorPosition:      result["operatorPosition"].(string),
-			Report:                result["report"].(string),
-			UserId:                result["userId"].(string),
+			IncidentDate: incidentDate,
+			// TypeOfReport:          result["typeOfReport"].(string),
+			// ClientName:            result["clientName"].(string),
+			// ClientSurname:         result["clientSurname"].(string),
+			// ClientAddress:         result["clientAddress"].(string),
+			// RespondingOfficerName: result["respondingOfficerName"].(string),
+			// ResponderCallSign:     result["responderCallSign"].(string),
+			// ResponderArrivalTime:  result["responderArrivalTime"].(string),
+			// OperatorName:          result["operatorName"].(string),
+			// OperatorPosition:      result["operatorPosition"].(string),
+			// Report:                result["report"].(string),
+			UserId: result["user_id"].(string),
 		}
 		reports = append(reports, report)
 	}
@@ -143,7 +152,7 @@ func (h ReportHandler) HandleDashboardReportsTablePage(c echo.Context) error {
 
 	if err != nil {
 		fmt.Println(err)
-		fmt.Print("Error HandleGetAllUser Line 169")
+		fmt.Print("Error HandleGetAllUser Line 155")
 		return c.JSON(http.StatusInternalServerError, map[string]string{"error": err.Error()})
 	}
 

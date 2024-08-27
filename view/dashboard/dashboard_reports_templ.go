@@ -9,7 +9,6 @@ import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
 import "github.com/kerneels94/reports/view/layout"
-import "github.com/kerneels94/reports/handler"
 
 type Report struct {
 	ID                    string
@@ -57,7 +56,7 @@ func DashboardReportsTablePage(reports []Report) templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<h2>Reports Page</h2><hr><table class=\"table delete-row-example\"><thead><tr><th>Name</th><th>Email</th></tr></thead><tbody hx-confirm=\"Are you sure?\" hx-target=\"closest tr\" hx-swap=\"outerHTML swap:1s\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<h2>Reports Page</h2><hr><table class=\"table delete-row-example\"><thead><tr><th>Incident Date</th><th>Id</th></tr></thead><tbody hx-confirm=\"Are you sure?\" hx-target=\"closest tr\" hx-swap=\"outerHTML swap:1s\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -67,9 +66,9 @@ func DashboardReportsTablePage(reports []Report) templ.Component {
 					return templ_7745c5c3_Err
 				}
 				var templ_7745c5c3_Var3 string
-				templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(report.ClientName)
+				templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(report.IncidentDate)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `dashboard_reports.templ`, Line: 38, Col: 29}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `dashboard_reports.templ`, Line: 37, Col: 31}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 				if templ_7745c5c3_Err != nil {
@@ -80,9 +79,9 @@ func DashboardReportsTablePage(reports []Report) templ.Component {
 					return templ_7745c5c3_Err
 				}
 				var templ_7745c5c3_Var4 string
-				templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(report.ClientSurname)
+				templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(report.UserId)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `dashboard_reports.templ`, Line: 39, Col: 32}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `dashboard_reports.templ`, Line: 48, Col: 25}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 				if templ_7745c5c3_Err != nil {
