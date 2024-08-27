@@ -7,24 +7,24 @@ import (
 	"github.com/kerneels94/reports/config"
 	"github.com/kerneels94/reports/functions"
 	"github.com/kerneels94/reports/view/dashboard"
-	
+
 	"github.com/labstack/echo/v4"
 )
 
 type ReportsData struct {
 	// ID                    int    `json:"id"`
-	IncidentDate string `json:"incident_date"`
-	// TypeOfReport          string `json:"type_of_report"`
-	ClientName    string `json:"client_name"`
-	ClientSurname string `json:"client_surname"`
-	ClientAddress string `json:"client_address"`
-	// RespondingOfficerName string `json:"responding_officer_name"`
-	// ResponderCallSign     string `json:"responder_call_sign"`
-	// ResponderArrivalTime  string `json:"responder_arrival_time"`
-	OperatorName     string `json:"operator_name"`
-	OperatorPosition string `json:"operator_position"`
-	Report           string `json:"report"`
-	UserId           string `json:"user_id"`
+	IncidentDate          string `json:"incident_date"`
+	TypeOfReport          string `json:"type_of_report"`
+	ClientName            string `json:"client_name"`
+	ClientSurname         string `json:"client_surname"`
+	ClientAddress         string `json:"client_address"`
+	RespondingOfficerName string `json:"responding_officer_name"`
+	ResponderCallSign     string `json:"responder_call_sign"`
+	ResponderArrivalTime  string `json:"responder_arrival_time"`
+	OperatorName          string `json:"operator_name"`
+	OperatorPosition      string `json:"operator_position"`
+	Report                string `json:"report"`
+	UserId                string `json:"user_id"`
 }
 
 type CreateReportHandler struct{}
@@ -49,31 +49,31 @@ func (h CreateReportHandler) HandleCreateReport(c echo.Context) error {
 
 	// Get form values
 	incidentDate := c.FormValue("incidentDate")
-	// typeOfReport := c.FormValue("typeOfReport")
+	typeOfReport := c.FormValue("typeOfReport")
 	clientName := c.FormValue("clientName")
 	clientSurname := c.FormValue("clientSurname")
 	clientAddress := c.FormValue("clientAddress")
-	// responderName := c.FormValue("responderName")
-	// responderTime := c.FormValue("responderTime")
-	// responderCallSign := c.FormValue("responderCallSign")
+	responderName := c.FormValue("responderName")
+	responderTime := c.FormValue("responderTime")
+	responderCallSign := c.FormValue("responderCallSign")
 	operatorName := c.FormValue("operatorName")
 	operatorPosition := c.FormValue("operatorPosition")
 	report := c.FormValue("report")
 
 	// Prepare query
 	query := ReportsData{
-		IncidentDate: incidentDate,
-		// TypeOfReport:          typeOfReport,
-		ClientName:    clientName,
-		ClientAddress: clientAddress,
-		ClientSurname: clientSurname,
-		// RespondingOfficerName: responderName,
-		// ResponderCallSign:     responderCallSign,
-		// ResponderArrivalTime:  responderTime,
-		OperatorName:     operatorName,
-		OperatorPosition: operatorPosition,
-		Report:           report,
-		UserId:           userId,
+		IncidentDate:          incidentDate,
+		TypeOfReport:          typeOfReport,
+		ClientName:            clientName,
+		ClientAddress:         clientAddress,
+		ClientSurname:         clientSurname,
+		RespondingOfficerName: responderName,
+		ResponderCallSign:     responderCallSign,
+		ResponderArrivalTime:  responderTime,
+		OperatorName:          operatorName,
+		OperatorPosition:      operatorPosition,
+		Report:                report,
+		UserId:                userId,
 	}
 
 	var results []ReportsData
