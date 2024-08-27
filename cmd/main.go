@@ -53,7 +53,7 @@ func main() {
 	app.POST("/api/dashboard/users", dashboardHandler.HandleAddUser, userHasValidSessionMiddleWare) // Add user
 
 	reportHandler := handler.ReportHandler{}
-	app.GET("/reports", reportHandler.HandleShowCreateReportForm, userHasValidSessionMiddleWare)
+	app.GET("/dashboard/reports", reportHandler.HandleShowCreateReportForm, userHasValidSessionMiddleWare)
 	app.POST("/api/dashboard/reports", reportHandler.HandleCreateReport, userHasValidSessionMiddleWare)
 
 	// logout
