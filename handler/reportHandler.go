@@ -3,6 +3,7 @@ package handler
 import (
 	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/kerneels94/reports/config"
 	"github.com/kerneels94/reports/functions"
@@ -37,7 +38,7 @@ func (h ReportHandler) HandleCreateReport(c echo.Context) error {
 	if err != nil {
 		fmt.Println(err)
 		fmt.Println("Error from line 37 handleCreateReport handler")
-		return c.JSON(http.StatusInternalServerError, map[string]string{"error": err.Error()}) // return 500
+		return functions.JsonInternalServerError(c, err.Error())
 	}
 
 	userId, err := config.GetUserIdFromCookie(c.Request(), c.Echo().AcquireContext(), supabaseClient)
@@ -45,7 +46,7 @@ func (h ReportHandler) HandleCreateReport(c echo.Context) error {
 	if err != nil {
 		fmt.Println(err)
 		fmt.Println("Error from line 47 handleCreateReport handler")
-		return c.JSON(http.StatusInternalServerError, map[string]string{"error": err.Error()}) // return 500
+		return functions.JsonInternalServerError(c, err.Error())
 	}
 
 	// Get form values
@@ -80,12 +81,12 @@ func (h ReportHandler) HandleCreateReport(c echo.Context) error {
 	}
 
 	var results []ReportsData
-	err = supabaseClient.DB.From("cake").Insert(query).Execute(&results)
+	err = supabaseClient.DB.From("reports").Insert(query).Execute(&results)
 
 	if err != nil {
 		fmt.Println(err)
 		fmt.Println("Error from line 71 handleCreateReport handler")
-		return c.JSON(http.StatusBadRequest, map[string]string{"error": err.Error()}) // return 400
+		return functions.JsonBadReqError(c, err.Error())
 	}
 
 	return c.JSON(http.StatusOK, "Report created")
@@ -97,53 +98,31 @@ func (h ReportHandler) HandleShowCreateReportForm(c echo.Context) error {
 	return render(c, dashboard.CreateReportForm())
 }
 
-// Dashboard - Users - Get All Users
+// Dashboard - Users - Get all reports
 func (h ReportHandler) HandleGetAllReports(c echo.Context) ([]dashboard.Report, error) {
 	supabaseClient, err := functions.CreateSupabaseClient()
 
 	if err != nil {
 		fmt.Println(err)
-		fmt.Print("Error HandleGetAllReports Line 103")
-		return nil, c.JSON(http.StatusInternalServerError, map[string]string{"error": err.Error()})
+		fmt.Print("Error HandleGetAllReports Line 106")
+		return nil, functions.JsonInternalServerError(c, err.Error())
 	}
 
-	var results []map[string]interface{}
+	var results []ReportsData
 
-	// Get all users
-	err = supabaseClient.DB.From("cake").Select("*").Execute(&results)
+	// Get all reports
+	err = supabaseClient.DB.From("reports").Select("*").Execute(&results)
 	if err != nil {
 		fmt.Println(err)
-		fmt.Print("Error HandleGetAllReports Line 113")
-		return nil, c.JSON(http.StatusInternalServerError, map[string]string{"error": err.Error()})
+		fmt.Print("Error HandleGetAllReports Line 116")
+		return nil, functions.JsonInternalServerError(c, err.Error())
 	}
 
-	// Format the results
 	var reports []dashboard.Report
+
+	// Format the results
 	for _, result := range results {
-
-		var incidentDate string
-
-		if result["incident_date"] == nil {
-			incidentDate = "No date"
-		} else {
-			incidentDate = fmt.Sprintf("%s", result["incident_date"])
-		}
-
-		report := dashboard.Report{
-			IncidentDate:          incidentDate,
-			TypeOfReport:          result["typeOfReport"].(string),
-			ClientName:            result["clientName"].(string),
-			ClientSurname:         result["clientSurname"].(string),
-			ClientAddress:         result["clientAddress"].(string),
-			RespondingOfficerName: result["responseName"].(string),
-			ResponderCallSign:     result["responderCallSign"].(string),
-			ResponderArrivalTime:  result["responderArrivalTime"].(string),
-			OperatorName:          result["operatorName"].(string),
-			OperatorPosition:      result["operatorPosition"].(string),
-			Report:                result["report"].(string),
-			UserId:                result["user_id"].(string),
-		}
-		reports = append(reports, report)
+		reports = append(reports, formatReportData(result))
 	}
 
 	return reports, nil
@@ -156,8 +135,40 @@ func (h ReportHandler) HandleDashboardReportsTablePage(c echo.Context) error {
 	if err != nil {
 		fmt.Println(err)
 		fmt.Print("Error HandleGetAllUser Line 155")
-		return c.JSON(http.StatusInternalServerError, map[string]string{"error": err.Error()})
+		return functions.JsonInternalServerError(c, err.Error())
 	}
 
 	return render(c, dashboard.DashboardReportsTablePage(reports))
+}
+
+/*
+Helper functions that format the report data
+*/
+func formatReportData(reportData ReportsData) dashboard.Report {
+	report := dashboard.Report{
+		IncidentDate:          trimReportDataContent(reportData.IncidentDate, "No date"),
+		TypeOfReport:          trimReportDataContent(reportData.TypeOfReport, "No type"),
+		ClientName:            trimReportDataContent(reportData.ClientName, "No name"),
+		ClientSurname:         trimReportDataContent(reportData.ClientSurname, "No surname"),
+		ClientAddress:         trimReportDataContent(reportData.ClientAddress, "No address"),
+		RespondingOfficerName: trimReportDataContent(reportData.RespondingOfficerName, "No responder"),
+		ResponderCallSign:     trimReportDataContent(reportData.ResponderCallSign, "No call sign"),
+		ResponderArrivalTime:  trimReportDataContent(reportData.ResponderArrivalTime, "No time"),
+		OperatorName:          trimReportDataContent(reportData.OperatorName, "No operator"),
+		OperatorPosition:      trimReportDataContent(reportData.OperatorPosition, "No position"),
+		Report:                trimReportDataContent(reportData.Report, "No report"),
+		UserId:                trimReportDataContent(reportData.UserId, "No user id"),
+	}
+
+	return report
+}
+
+/*
+Helper function to trim the report data content
+*/
+func trimReportDataContent(reportContent string, noContentMessage string) string {
+	if strings.TrimSpace(reportContent) == "" {
+		return noContentMessage
+	}
+	return fmt.Sprintf("%s", reportContent)
 }

@@ -1,22 +1,16 @@
 :root {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* Header */
 header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .sign-up {
-    padding: 20px;
-    cursor: pointer;
-    
+  padding: 20px;
+  cursor: pointer;
 }
-
-
-
-
