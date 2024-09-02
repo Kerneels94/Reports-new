@@ -13,14 +13,15 @@ import (
 
 type ReportsData struct {
 	// ID                    int    `json:"id"`
+	ClientCode            string `json:"client_code"`
 	IncidentDate          string `json:"incident_date"`
-	TypeOfReport          string `json:"type_of_report"`
+	TypeOfReport          string `json:"report_type"`
 	ClientName            string `json:"client_name"`
 	ClientSurname         string `json:"client_surname"`
 	ClientAddress         string `json:"client_address"`
-	RespondingOfficerName string `json:"responding_officer_name"`
-	ResponderCallSign     string `json:"responder_call_sign"`
-	ResponderArrivalTime  string `json:"responder_arrival_time"`
+	RespondingOfficerName string `json:"armed_response_officer_name"`
+	ResponderCallSign     string `json:"armed_response_call_sign"`
+	ResponderArrivalTime  string `json:"armed_response_arrival_time"`
 	OperatorName          string `json:"operator_name"`
 	OperatorPosition      string `json:"operator_position"`
 	Report                string `json:"report"`
@@ -48,6 +49,7 @@ func (h ReportHandler) HandleCreateReport(c echo.Context) error {
 	}
 
 	// Get form values
+	clientCode := c.FormValue("clientCode")
 	incidentDate := c.FormValue("incidentDate")
 	typeOfReport := c.FormValue("typeOfReport")
 	clientName := c.FormValue("clientName")
@@ -62,6 +64,7 @@ func (h ReportHandler) HandleCreateReport(c echo.Context) error {
 
 	// Prepare query
 	query := ReportsData{
+		ClientCode:            clientCode,
 		IncidentDate:          incidentDate,
 		TypeOfReport:          typeOfReport,
 		ClientName:            clientName,
@@ -127,18 +130,18 @@ func (h ReportHandler) HandleGetAllReports(c echo.Context) ([]dashboard.Report, 
 		}
 
 		report := dashboard.Report{
-			IncidentDate: incidentDate,
-			// TypeOfReport:          result["typeOfReport"].(string),
-			// ClientName:            result["clientName"].(string),
-			// ClientSurname:         result["clientSurname"].(string),
-			// ClientAddress:         result["clientAddress"].(string),
-			// RespondingOfficerName: result["respondingOfficerName"].(string),
-			// ResponderCallSign:     result["responderCallSign"].(string),
-			// ResponderArrivalTime:  result["responderArrivalTime"].(string),
-			// OperatorName:          result["operatorName"].(string),
-			// OperatorPosition:      result["operatorPosition"].(string),
-			// Report:                result["report"].(string),
-			UserId: result["user_id"].(string),
+			IncidentDate:          incidentDate,
+			TypeOfReport:          result["typeOfReport"].(string),
+			ClientName:            result["clientName"].(string),
+			ClientSurname:         result["clientSurname"].(string),
+			ClientAddress:         result["clientAddress"].(string),
+			RespondingOfficerName: result["responseName"].(string),
+			ResponderCallSign:     result["responderCallSign"].(string),
+			ResponderArrivalTime:  result["responderArrivalTime"].(string),
+			OperatorName:          result["operatorName"].(string),
+			OperatorPosition:      result["operatorPosition"].(string),
+			Report:                result["report"].(string),
+			UserId:                result["user_id"].(string),
 		}
 		reports = append(reports, report)
 	}

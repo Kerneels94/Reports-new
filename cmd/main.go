@@ -54,6 +54,7 @@ func main() {
 
 	reportHandler := handler.ReportHandler{}
 	app.GET("/dashboard/reports", reportHandler.HandleDashboardReportsTablePage, userHasValidSessionMiddleWare)
+	app.GET("/dashboard/create-reports", reportHandler.HandleShowCreateReportForm, userHasValidSessionMiddleWare)
 	app.POST("/api/dashboard/reports", reportHandler.HandleCreateReport, userHasValidSessionMiddleWare)
 
 	// logout
