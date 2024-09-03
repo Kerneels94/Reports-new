@@ -22,7 +22,7 @@ func (h LoginHandler) HandleUserLogin(c echo.Context) error {
 	// userData := model.UserModel{
 	// 	Email: "test@gmail.com",
 	// }
-	return Render(c, auth.LoginPage())
+	return render(c, auth.LoginPage())
 }
 
 /*
