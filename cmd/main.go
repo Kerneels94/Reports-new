@@ -6,6 +6,7 @@ import (
 	"fmt"
 
 	"github.com/kerneels94/reports/config"
+	"github.com/kerneels94/reports/functions"
 
 	"github.com/joho/godotenv"
 	"github.com/kerneels94/reports/handler"
@@ -70,7 +71,7 @@ func userHasValidSessionMiddleWare(next echo.HandlerFunc) echo.HandlerFunc {
 		isValid := config.IsCookieValid(c.Request(), c)
 
 		if !isValid {
-			return c.JSON(401, map[string]string{"error": "Unauthorized"})
+			return functions.DisplayUnauthorizedPage(c)
 		}
 
 		return next(c)
