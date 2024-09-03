@@ -3,9 +3,9 @@ package functions
 import (
 	"net/http"
 
+	"github.com/kerneels94/reports/handler"
 	viewError "github.com/kerneels94/reports/view/error"
 
-	"github.com/a-h/templ"
 	"github.com/labstack/echo/v4"
 )
 
@@ -30,9 +30,5 @@ func JsonUnauthorized(c echo.Context) error {
 }
 
 func DisplayUnauthorizedPage(c echo.Context) error {
-	return render(c, viewError.UnauthorizedPage())
-}
-
-func render(c echo.Context, component templ.Component) error {
-	return component.Render(c.Request().Context(), c.Response())
+	return handler.Render(c, viewError.UnauthorizedPage())
 }

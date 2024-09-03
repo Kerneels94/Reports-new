@@ -95,7 +95,7 @@ func (h ReportHandler) HandleCreateReport(c echo.Context) error {
 
 // Function to display create report form
 func (h ReportHandler) HandleShowCreateReportForm(c echo.Context) error {
-	return render(c, dashboard.CreateReportForm())
+	return Render(c, dashboard.CreateReportForm())
 }
 
 // Dashboard - Users - Get all reports
@@ -138,7 +138,7 @@ func (h ReportHandler) HandleDashboardReportsTablePage(c echo.Context) error {
 		return functions.JsonInternalServerError(c, err.Error())
 	}
 
-	return render(c, dashboard.DashboardReportsTablePage(reports))
+	return Render(c, dashboard.DashboardReportsTablePage(reports))
 }
 
 /*

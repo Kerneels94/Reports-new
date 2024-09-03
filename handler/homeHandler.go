@@ -11,5 +11,5 @@ func (h MainPageHandler) HandleShowMainPage(c echo.Context) error {
 	// userData := model.UserModel{
 	// 	Email: "test@gmail.com",
 	// }
-	return render(c, home.HomePage())
+	return Render(c, home.HomePage())
 }
