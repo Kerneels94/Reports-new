@@ -41,28 +41,35 @@ func (h PackageType) HandleSelectPackage(c echo.Context) error {
 		}
 
 		// This will be a little redundent
+		//TODO: refine logic a bit
 		if free != "" {
 			results[1].packageType = "free"
 			supabaseClient.DB.From("tiers").Insert(results[1]).Execute(&results)
+			functions.HtmxRedirect(c, "/dashboard")
+			break
 		}
 
 		if oneHundred != "" {
 			results[1].packageType = "oneHundred"
 			supabaseClient.DB.From("tiers").Insert(results[1]).Execute(&results)
+			functions.HtmxRedirect(c, "/dashboard")
+			break
 		}
 
 		if twoHundred != "" {
 			results[1].packageType = "twoHundred"
 			supabaseClient.DB.From("tiers").Insert(results[1]).Execute(&results)
+			functions.HtmxRedirect(c, "/dashboard")
+			break
 		}
 
 		if unlimited != "" {
 			results[1].packageType = "unlimited"
 			supabaseClient.DB.From("tiers").Insert(results[1]).Execute(&results)
+			functions.HtmxRedirect(c, "/dashboard")
+			break
 		}
 
-		functions.HtmxRedirect(c, "/tiers")
-		return c.JSON(http.StatusOK, "User is logged out")
 	}
 
 	return nil
