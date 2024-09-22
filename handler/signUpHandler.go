@@ -15,7 +15,7 @@ import (
 type SignUpHandler struct{}
 
 func (h SignUpHandler) HandleSignUp(c echo.Context) error {
-	return Render(c, auth.SignUpPage())
+	return render(c, auth.SignUpPage())
 }
 
 func (h SignUpHandler) HandleUserSignUp(c echo.Context) error {

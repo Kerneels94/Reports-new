@@ -8,8 +8,5 @@ import (
 type MainPageHandler struct{}
 
 func (h MainPageHandler) HandleShowMainPage(c echo.Context) error {
-	// userData := model.UserModel{
-	// 	Email: "test@gmail.com",
-	// }
-	return Render(c, home.HomePage())
+	return render(c, home.HomePage())
 }

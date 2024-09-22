@@ -16,7 +16,7 @@ import (
 type DashboardHandler struct{}
 
 func (h DashboardHandler) HandleDashboard(c echo.Context) error {
-	return Render(c, dashboard.DashboardPage())
+	return render(c, dashboard.DashboardPage())
 }
 
 
@@ -30,7 +30,7 @@ func (h DashboardHandler) HandleLogout(c echo.Context) error {
 
 // Dashboard - Users
 func (h DashboardHandler) HandleUsers(c echo.Context) error {
-	return Render(c, dashboard.DashboardUsersPage())
+	return render(c, dashboard.DashboardUsersPage())
 }
 
 // Dashboard - Users - Add User
@@ -123,5 +123,5 @@ func (h DashboardHandler) HandleDashboardUsersTablePage(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"error": err.Error()})
 	}
 
-	return Render(c, dashboard.DashboardUserTablePage(users))
+	return render(c, dashboard.DashboardUserTablePage(users))
 }
