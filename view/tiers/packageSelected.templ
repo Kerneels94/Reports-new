@@ -1,0 +1,20 @@
+package tiers
+
+import "github.com/kerneels94/reports/view/layout"
+
+templ PackageSelected() {
+	@layout.Base() {
+		<h1>Select Tier</h1>
+		<form method="POST">
+			<label for="tier">Select Tier:</label>
+			<select id="tier" name="tier">
+				<option value="free">Free (50 reports) - Free</option>
+				<option value="100">100 reports - R250/month</option>
+				<option value="200">200 reports - R450/month</option>
+				<option value="unlimited">Unlimited reports - R600/month</option>
+			</select>
+			<br/>
+			<input type="submit" value="Submit"/>
+		</form>
+	}
+}

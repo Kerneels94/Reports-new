@@ -19,6 +19,7 @@ func (h DashboardHandler) HandleDashboard(c echo.Context) error {
 	return Render(c, dashboard.DashboardPage())
 }
 
+
 func (h DashboardHandler) HandleLogout(c echo.Context) error {
 	config.CookieLogout(c.Response())
 

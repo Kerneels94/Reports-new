@@ -25,10 +25,6 @@ func main() {
 
 	app := echo.New()
 
-	// app.Static("./css/main.css", "css")
-
-	// app.Use(withUser)
-
 	mainPageHandler := handler.MainPageHandler{}
 	app.GET("/", mainPageHandler.HandleShowMainPage)
 
@@ -50,6 +46,7 @@ func main() {
 	// Dashboard users
 	// app.GET("/dashboard/users", dashboardHandler.HandleUsers)
 	app.GET("/dashboard/users", dashboardHandler.HandleDashboardUsersTablePage, userHasValidSessionMiddleWare) // Display users in table
+
 	// app.GET("/api/dashboard/users", dashboardHandler.HandleGetAllUser) // Get users
 	app.POST("/api/dashboard/users", dashboardHandler.HandleAddUser, userHasValidSessionMiddleWare) // Add user
 
