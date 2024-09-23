@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/kerneels94/reports/functions"
+	"github.com/kerneels94/reports/view/tiers"
 	"github.com/labstack/echo/v4"
 )
 
@@ -41,7 +42,6 @@ func (h PackageType) HandleSelectPackage(c echo.Context) error {
 		}
 
 		// This will be a little redundent
-		//TODO: refine logic a bit
 		if free != "" {
 			results[1].packageType = "free"
 			supabaseClient.DB.From("tiers").Insert(results[1]).Execute(&results)
@@ -73,4 +73,9 @@ func (h PackageType) HandleSelectPackage(c echo.Context) error {
 	}
 
 	return nil
+}
+
+// Render package selector page
+func (h PackageType) RenderPackagePage(c echo.Context) error {
+	return render(c, tiers.PackageSelected())
 }

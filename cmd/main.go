@@ -55,6 +55,10 @@ func main() {
 	app.GET("/dashboard/create-reports", reportHandler.HandleShowCreateReportForm, userHasValidSessionMiddleWare)
 	app.POST("/api/dashboard/reports", reportHandler.HandleCreateReport, userHasValidSessionMiddleWare)
 
+	// Tiers
+	tiersHandler := handler.PackageType{}
+	app.GET("/select-package", tiersHandler.RenderPackagePage, userHasValidSessionMiddleWare)
+
 	// logout
 	app.POST("/api/logout", dashboardHandler.HandleLogout, userHasValidSessionMiddleWare)
 
