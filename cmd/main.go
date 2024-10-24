@@ -58,6 +58,7 @@ func main() {
 	// Tiers
 	tiersHandler := handler.PackageType{}
 	app.GET("/select-package", tiersHandler.RenderPackagePage, userHasValidSessionMiddleWare)
+	app.GET("/gup", tiersHandler.GetUserPackage, userHasValidSessionMiddleWare)
 
 	// logout
 	app.POST("/api/logout", dashboardHandler.HandleLogout, userHasValidSessionMiddleWare)
